@@ -22,20 +22,22 @@
     var seppuku = false;
     
     // The polyfill cant’t function properly without `getComputedStyle`.
-    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === undefined || _typeof(window.getComputedStyle) === undefined) seppuku = true;
+    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined && _typeof(window.getComputedStyle) !== undefined) {
+        (function () {
+            var testNode = document.createElement('div');
+    
+            if (['', '-webkit-', '-moz-', '-ms-'].some(function (prefix) {
+                try {
+                    testNode.style.position = prefix + 'sticky';
+                } catch (e) {}
+    
+                return testNode.style.position != '';
+            })) seppuku = true;
+        })();
+    }
     // Dont’t get in a way if the browser supports `position: sticky` natively.
     else {
-            (function () {
-                var testNode = document.createElement('div');
-    
-                if (['', '-webkit-', '-moz-', '-ms-'].some(function (prefix) {
-                    try {
-                        testNode.style.position = prefix + 'sticky';
-                    } catch (e) {}
-    
-                    return testNode.style.position != '';
-                })) seppuku = true;
-            })();
+            seppuku = true;
         }
     
     /*
