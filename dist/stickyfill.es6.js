@@ -14,7 +14,7 @@
 let seppuku = false;
 
 // The polyfill cant’t function properly without `getComputedStyle`.
-if (!window.getComputedStyle) seppuku = true;
+if (!window || !window.getComputedStyle) seppuku = true;
 // Dont’t get in a way if the browser supports `position: sticky` natively.
 else {
     const testNode = document.createElement('div');
