@@ -14,19 +14,21 @@
 let seppuku = false;
 
 // The polyfill cant’t function properly without `getComputedStyle`.
-if (typeof window !== undefined && typeof window.getComputedStyle !== undefined) {
-    const testNode = document.createElement('div');
-    
-        if (
-            ['', '-webkit-', '-moz-', '-ms-'].some(prefix => {
-                try {
-                    testNode.style.position = prefix + 'sticky';
-                }
-                catch(e) {}
-    
-                return testNode.style.position != '';
-            })
-        ) seppuku = true;
+if (typeof window === 'object' && window !== null && window.self === window) {
+    if (window.getComputedStyle) {
+        const testNode = document.createElement('div');
+        
+            if (
+                ['', '-webkit-', '-moz-', '-ms-'].some(prefix => {
+                    try {
+                        testNode.style.position = prefix + 'sticky';
+                    }
+                    catch(e) {}
+        
+                    return testNode.style.position != '';
+                })
+            ) seppuku = true;
+    }
 }
 // Dont’t get in a way if the browser supports `position: sticky` natively.
 else {
